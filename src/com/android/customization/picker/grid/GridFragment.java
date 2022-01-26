@@ -61,12 +61,6 @@ public class GridFragment extends AppbarFragment {
     private static final String KEY_STATE_BOTTOM_ACTION_BAR_VISIBLE =
             "GridFragment.bottomActionBarVisible";
 
-    public static GridFragment newInstance(CharSequence title) {
-        GridFragment fragment = new GridFragment();
-        fragment.setArguments(AppbarFragment.createArguments(title));
-        return fragment;
-    }
-
     private WallpaperInfo mHomeWallpaper;
     private RecyclerView mOptionsContainer;
     private OptionSelectorController<GridOption> mOptionsController;
@@ -166,6 +160,11 @@ public class GridFragment extends AppbarFragment {
     }
 
     @Override
+    public CharSequence getDefaultTitle() {
+        return getString(R.string.grid_title);
+    }
+
+    @Override
     protected void onBottomActionBarReady(BottomActionBar bottomActionBar) {
         super.onBottomActionBarReady(bottomActionBar);
         mBottomActionBar = bottomActionBar;
@@ -186,7 +185,8 @@ public class GridFragment extends AppbarFragment {
             public void onOptionsLoaded(List<GridOption> options) {
                 mLoading.hide();
                 mOptionsController = new OptionSelectorController<>(
-                        mOptionsContainer, options, /* useGrid= */ false, CheckmarkStyle.CENTER);
+                        mOptionsContainer, options, /* useGrid= */ false,
+                        CheckmarkStyle.CENTER_CHANGE_COLOR_WHEN_NOT_SELECTED);
                 mOptionsController.initOptions(mGridManager);
 
                 // Find the selected Grid option.
